@@ -4,13 +4,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 sys.path.append('C:\\Users\\shikhar\\PycharmProjects\\particle')
 sys.path.append('D:\\ML\\IML_ai\\iml')
+sys.path.append('C:\\Users\\shikhar\\PycharmProjects\\aqualearning-aigues_del_prat')
 from iml.source.training_engines import NeuralNetworkTrainingEngine
+from scripts.webapp import AiguesDelPratWebApp
 
 
 if __name__ == '__main__':
     data_df = pd.read_csv('C:\\Users\\shikhar\\PycharmProjects\\particle\\final_constv_def.csv')
     input_df = data_df.iloc[:,:-2]
-    output_df = data_df.iloc[:,-1]
+    output_df = data_df.iloc[:,-2]
 
     training_engine = NeuralNetworkTrainingEngine(input_dataset=input_df,
                                                         output_dataset=output_df,
@@ -30,3 +32,6 @@ if __name__ == '__main__':
     plt.figure(figsize=(8, 4))
     plt.plot(aa, training_engine.y_test_original[:idx], marker='.', label="actual")
     plt.plot(aa, y_pred[:idx], 'r', label="prediction")
+    training_engine = NeuralNetworkTrainingEngine(load="mymodel.h5")
+    web_app = AiguesDelPratWebApp(model=training_engine)
+    web_app.run()
